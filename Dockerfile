@@ -11,7 +11,7 @@ ENV PORT 8080
 # install extension
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
-RUN install-php-extensions gettext opcache pdo_mysql redis zip
+RUN install-php-extensions gettext opcache pdo_mysql redis zip xdebug
 
 # composer
 
@@ -30,4 +30,10 @@ VOLUME ["/var/run/php-fpm"]
 VOLUME ["/usr/src/bleeding"]
 
 COPY . /usr/src/bleeding
+
+RUN apk add autoconf && apk add build-base
+WORKDIR /usr/src/bleeding/xhprof/extension
+RUN phpize && ./configure && make all && make install
+RUN docker-php-ext-enable xdebug xhprof
+
 WORKDIR /usr/src/bleeding/public

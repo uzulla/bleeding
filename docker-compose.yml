@@ -23,6 +23,7 @@ services:
             - ${APP_PATH-.}:/opt/app/:cached
             - ${APP_PATH-.}/container/web/www.conf:/usr/local/etc/php-fpm.d/zzz-www.conf:ro
             - ${APP_PATH-.}/container/web/php.ini:/usr/local/etc/php/php.ini:ro
+            - ${APP_PATH-.}/xhprof/tmp/:/tmp/xhprof/
         depends_on:
             - mysql
         env_file:
